@@ -1,7 +1,7 @@
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger');
-const { isMongoConnected } = require('./db');
+const { isMongoConnected, getLastMongoError } = require('./db');
 const reservasRouter = require('./routes/reservas');
 
 const app = express();
@@ -12,7 +12,8 @@ app.get('/', (req, res) => {
   res.json({ 
     status: 'ok', 
     service: 'API de reservas de laboratorio',
-    mongoConnected: isMongoConnected()
+    mongoConnected: isMongoConnected(),
+    mongoError: getLastMongoError()
   });
 });
 
@@ -21,6 +22,7 @@ app.get('/health', (req, res) => {
   res.json({
     api: 'ok',
     mongodb: mongoStatus ? 'connected' : 'disconnected',
+    mongodbError: getLastMongoError(),
     timestamp: new Date().toISOString()
   });
 });
