@@ -19,6 +19,12 @@ Ejemplo de URI válida de MongoDB Atlas:
 
 Si la URL de MongoDB no incluye el nombre de la base de datos, el proyecto usará por defecto `laboratorio_reservas`.
 
+### Debug TLS de MongoDB Atlas
+Si la conexión falla por TLS en Render, puede usar temporalmente:
+- `MONGODB_ALLOW_INVALID_TLS=true`
+
+Esto habilita la conexión con certificados inválidos solo para depurar fallos de TLS. No se recomienda mantenerlo en producción.
+
 ## Comandos
 - `npm install`: instala dependencias.
 - `npm start`: inicia la API.
