@@ -20,6 +20,14 @@ describe('API de Reservas', () => {
     });
   });
 
+  describe('GET /api-docs', () => {
+    it('debe servir la documentación Swagger UI', async () => {
+      const response = await require('supertest')(app).get('/api-docs');
+      expect(response.status).toBe(200);
+      expect(response.text).toContain('Swagger UI');
+    });
+  });
+
   describe('GET /reservas', () => {
     it('debe retornar lista de reservas (vacía si no hay)', async () => {
       // Mock de la colección

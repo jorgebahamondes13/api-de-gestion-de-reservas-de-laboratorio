@@ -30,6 +30,12 @@ Si la URL de MongoDB no incluye el nombre de la base de datos, el proyecto usar�
 - `GET /reservas/usuario/:usuario`: lista reservas de un docente.
 - `POST /reservas`: crea una reserva.
 - `DELETE /reservas/:id`: elimina una reserva.
+- `GET /api-docs`: interfaz Swagger UI con documentación de la API y ejemplos.
+
+## Swagger UI
+Cuando la API esté desplegada, la documentación Swagger estará disponible en:
+
+- `https://api-de-gestion-de-reservas-de-laboratorio.onrender.com/api-docs`
 
 ## Nota
 En este entorno no se encontró `npm`, por lo que la instalación de dependencias debe ejecutarse localmente cuando Node.js esté disponible.
