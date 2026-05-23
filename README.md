@@ -10,9 +10,12 @@ API REST para la gestión de reservas de un laboratorio de computación, desarro
 - `src/routes/reservas.js`: endpoints de la API.
 
 ## Variables de entorno
-El proyecto usa las variables definidas en `.env`:
-- `DATABASE_URL`: URL de conexión a MongoDB.
+El proyecto usa las variables definidas en `.env` o en el servicio de hosting:
+- `DATABASE_URL`, `MONGODB_URI` o `MONGO_URI`: URL de conexión a MongoDB.
 - `COLECCION`: nombre de la colección para reservas.
+
+Ejemplo de URI válida de MongoDB Atlas:
+`mongodb+srv://usuario:password@cluster0.k8rz8gr.mongodb.net/laboratorio_reservas?retryWrites=true&w=majority`
 
 Si la URL de MongoDB no incluye el nombre de la base de datos, el proyecto usará por defecto `laboratorio_reservas`.
 
