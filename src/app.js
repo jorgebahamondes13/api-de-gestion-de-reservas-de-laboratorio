@@ -1,4 +1,5 @@
 const express = require('express');
+const { isMongoConnected } = require('./db');
 const reservasRouter = require('./routes/reservas');
 
 const app = express();
@@ -6,7 +7,20 @@ const app = express();
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.json({ status: 'ok', service: 'API de reservas de laboratorio' });
+  res.json({ 
+    status: 'ok', 
+    service: 'API de reservas de laboratorio',
+    mongoConnected: isMongoConnected()
+  });
+});
+
+app.get('/health', (req, res) => {
+  const mongoStatus = isMongoConnected();
+  res.json({
+    api: 'ok',
+    mongodb: mongoStatus ? 'connected' : 'disconnected',
+    timestamp: new Date().toISOString()
+  });
 });
 
 app.use('/reservas', reservasRouter);

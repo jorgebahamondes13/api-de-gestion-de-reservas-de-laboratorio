@@ -23,8 +23,20 @@ router.get('/', async (req, res) => {
     const reservas = await collection.find({}).sort({ dia: 1, bloque: 1 }).toArray();
     res.json({ data: reservas });
   } catch (error) {
-    console.error('Error listando reservas:', error);
-    res.status(500).json({ error: 'Error al obtener las reservas' });
+    console.error('[GET /reservas] Error:', error.message);
+    
+    if (error.message.includes('MongoDB no ha sido inicializada')) {
+      return res.status(503).json({ 
+        error: 'MongoDB no está disponible',
+        message: error.message,
+        hint: 'Verifica que DATABASE_URL y COLECCION estén configuradas correctamente'
+      });
+    }
+    
+    res.status(500).json({ 
+      error: 'Error al obtener las reservas',
+      message: error.message 
+    });
   }
 });
 
@@ -53,8 +65,20 @@ router.get('/disponibilidad', async (req, res) => {
 
     res.json({ query: filtro, reservadas, disponibilidad: filtro.dia ? disponibles : undefined });
   } catch (error) {
-    console.error('Error consultando disponibilidad:', error);
-    res.status(500).json({ error: 'Error al consultar disponibilidad' });
+    console.error('[GET /disponibilidad] Error:', error.message);
+    
+    if (error.message.includes('MongoDB no ha sido inicializada')) {
+      return res.status(503).json({ 
+        error: 'MongoDB no está disponible',
+        message: error.message,
+        hint: 'Verifica que DATABASE_URL y COLECCION estén configuradas'
+      });
+    }
+    
+    res.status(500).json({ 
+      error: 'Error al consultar disponibilidad',
+      message: error.message 
+    });
   }
 });
 
@@ -65,8 +89,20 @@ router.get('/usuario/:usuario', async (req, res) => {
     const reservas = await collection.find({ usuario }).sort({ dia: 1, bloque: 1 }).toArray();
     res.json({ usuario, data: reservas });
   } catch (error) {
-    console.error('Error listando reservas por usuario:', error);
-    res.status(500).json({ error: 'Error al obtener reservas del usuario' });
+    console.error('[GET /usuario/:usuario] Error:', error.message);
+    
+    if (error.message.includes('MongoDB no ha sido inicializada')) {
+      return res.status(503).json({ 
+        error: 'MongoDB no está disponible',
+        message: error.message,
+        hint: 'Verifica que DATABASE_URL y COLECCION estén configuradas'
+      });
+    }
+    
+    res.status(500).json({ 
+      error: 'Error al obtener reservas del usuario',
+      message: error.message 
+    });
   }
 });
 
@@ -89,8 +125,20 @@ router.post('/', async (req, res) => {
     const resultado = await collection.insertOne(payload);
     res.status(201).json({ insertedId: resultado.insertedId, data: payload });
   } catch (error) {
-    console.error('Error creando reserva:', error);
-    res.status(500).json({ error: 'Error al crear la reserva' });
+    console.error('[POST /reservas] Error:', error.message);
+    
+    if (error.message.includes('MongoDB no ha sido inicializada')) {
+      return res.status(503).json({ 
+        error: 'MongoDB no está disponible',
+        message: error.message,
+        hint: 'Verifica que DATABASE_URL y COLECCION estén configuradas en Render'
+      });
+    }
+    
+    res.status(500).json({ 
+      error: 'Error al crear la reserva',
+      message: error.message 
+    });
   }
 });
 
@@ -110,8 +158,20 @@ router.delete('/:id', async (req, res) => {
 
     res.json({ deletedId: id });
   } catch (error) {
-    console.error('Error eliminando reserva:', error);
-    res.status(500).json({ error: 'Error al eliminar la reserva' });
+    console.error('[DELETE /:id] Error:', error.message);
+    
+    if (error.message.includes('MongoDB no ha sido inicializada')) {
+      return res.status(503).json({ 
+        error: 'MongoDB no está disponible',
+        message: error.message,
+        hint: 'Verifica que DATABASE_URL y COLECCION estén configuradas'
+      });
+    }
+    
+    res.status(500).json({ 
+      error: 'Error al eliminar la reserva',
+      message: error.message 
+    });
   }
 });
 
