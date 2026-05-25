@@ -17,28 +17,71 @@ const swaggerDocument = {
   ],
   components: {
     schemas: {
+      ReservaCrear: {
+        type: 'object',
+        required: ['usuario', 'dia', 'bloque'],
+        properties: {
+          usuario: {
+            type: 'string',
+            description: 'Identificador único del docente',
+            example: 'docente1'
+          },
+          rol: {
+            type: 'string',
+            enum: ['docente', 'administrador'],
+            default: 'docente',
+            description: 'Rol del usuario (opcional, default: docente)'
+          },
+          dia: {
+            type: 'string',
+            enum: ['lunes', 'martes', 'miercoles', 'jueves', 'viernes'],
+            description: 'Día de la semana de la reserva',
+            example: 'lunes'
+          },
+          bloque: {
+            type: 'string',
+            enum: ['08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00', '12:00-13:00', '13:00-14:00'],
+            description: 'Bloque horario de la reserva',
+            example: '08:00-09:00'
+          },
+          materia: {
+            type: 'string',
+            description: 'Nombre de la materia (opcional)',
+            example: 'Matemáticas'
+          },
+          descripcion: {
+            type: 'string',
+            description: 'Descripción o notas de la reserva (opcional)',
+            example: 'Clase de álgebra'
+          }
+        }
+      },
       Reserva: {
         type: 'object',
-        required: ['usuario', 'rol', 'dia', 'bloque'],
         properties: {
+          _id: {
+            type: 'string',
+            description: 'ID único de la reserva en MongoDB',
+            example: '650b4efb34e2d1cabc123456'
+          },
           usuario: {
             type: 'string',
             example: 'docente1'
           },
           rol: {
             type: 'string',
-            example: 'docente',
-            description: 'docente o administrador'
+            enum: ['docente', 'administrador'],
+            example: 'docente'
           },
           dia: {
             type: 'string',
-            example: 'lunes',
-            description: 'Día de la semana válido: lunes, martes, miercoles, jueves, viernes'
+            enum: ['lunes', 'martes', 'miercoles', 'jueves', 'viernes'],
+            example: 'lunes'
           },
           bloque: {
             type: 'string',
-            example: '08:00-09:00',
-            description: 'Bloques horarios válidos entre 08:00 y 14:00'
+            enum: ['08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00', '12:00-13:00', '13:00-14:00'],
+            example: '08:00-09:00'
           },
           materia: {
             type: 'string',
@@ -51,6 +94,7 @@ const swaggerDocument = {
           creadoEn: {
             type: 'string',
             format: 'date-time',
+            description: 'Fecha y hora de creación de la reserva',
             example: '2026-05-23T12:00:00.000Z'
           }
         }
@@ -66,6 +110,10 @@ const swaggerDocument = {
           },
           hint: {
             type: 'string'
+          },
+          errors: {
+            type: 'array',
+            description: 'Errores de validación'
           }
         }
       },
@@ -74,6 +122,7 @@ const swaggerDocument = {
         properties: {
           bloque: {
             type: 'string',
+            enum: ['08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00', '12:00-13:00', '13:00-14:00'],
             example: '08:00-09:00'
           },
           disponible: {
@@ -161,13 +210,13 @@ const swaggerDocument = {
           content: {
             'application/json': {
               schema: {
-                $ref: '#/components/schemas/Reserva'
+                $ref: '#/components/schemas/ReservaCrear'
               },
               example: {
                 usuario: 'docente1',
-                rol: 'docente',
                 dia: 'lunes',
                 bloque: '08:00-09:00',
+                rol: 'docente',
                 materia: 'Matemáticas',
                 descripcion: 'Clase de álgebra'
               }
